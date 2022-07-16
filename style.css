@@ -1,0 +1,14 @@
+canvas {
+	border: 3px solid #4444;
+	background-image: url(./docs/assets/images/space.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	border-radius: 30px;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+}
