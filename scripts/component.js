@@ -1,4 +1,4 @@
-class Snake {
+class Component {
 	constructor(width, height, color, x, y, ctx) {
 		this.width = width;
 		this.height = height;
@@ -34,5 +34,14 @@ class Snake {
 
 	bottom() {
 		return this.y + this.height;
+	}
+
+	crashWith(obstacle) {
+		return !(
+			this.bottom() < obstacle.top() ||
+			this.top() > obstacle.bottom() ||
+			this.right() < obstacle.left() ||
+			this.left() > obstacle.right()
+		);
 	}
 }

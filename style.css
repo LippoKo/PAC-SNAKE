@@ -1,9 +1,9 @@
-canvas {
-	border: 3px solid #4444;
-	background-image: url(./docs/assets/images/space.png);
+#canvas {
+	border: 1px solid rgba(137, 43, 226, 0.322);
+	background-image: url(./docs/assets/images/);
 	background-size: cover;
 	background-repeat: no-repeat;
-	border-radius: 30px;
+	border-radius: 15px;
 }
 
 body {
@@ -11,4 +11,17 @@ body {
 	justify-content: center;
 	align-items: center;
 	margin-top: 50px;
+	background-image: url(./docs/assets/images/space.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+button {
+	padding: 10px;
+	background-color: rgba(138, 15, 209, 0.233);
+	font: 20px monospace;
+	color: aliceblue;
+	border-radius: 15px;
+	margin-top: 200px;
+	margin-left: 20px;
 }

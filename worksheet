@@ -1,0 +1,40 @@
+const myGameArea = {
+	canvas: document.createElement("canvas"),
+	start: function () {
+		this.context = this.canvas.getContext("2d");
+		this.canvas.width = 600;
+		this.canvas.height = 600;
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		// call updateGameArea() every 20 milliseconds
+		this.interval = setInterval(updateGameArea, 1000 / 60);
+	},
+	frames: 0,
+	clear: function () {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+	stop: function () {
+		clearInterval(this.interval);
+	},
+	foodArray: [],
+};
+
+myGameArea.start();
+
+//moviment
+window.addEventListener("keydown", function (e) {
+	myGameArea.key = e.keyCode;
+});
+
+//make the moviment reset when selecting other key
+document.onkeyup = function (e) {
+	snake.speedX = 0;
+	snake.speedY = 0;
+};
+
+//make the game RUN
+function updateGameArea() {
+	myGameArea.clear();
+	snake.move();
+	snake.update();
+	food.updateFood();
+}
