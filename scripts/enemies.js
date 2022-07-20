@@ -2,6 +2,8 @@ class Enemies {
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
+		this.width = 40;
+		this.height = 40;
 		this.enemyArray = [];
 
 		// Load the image
@@ -11,27 +13,25 @@ class Enemies {
 			this.img = img;
 			this.draw();
 		});
-		img.src = "/project-1/docs/assets/images/giphy.gif";
+		img.src = "/docs/assets/images/giphy.gif";
+	}
+	left() {
+		return this.x;
 	}
 
-	updateEnemy = () => {
-		for (let i = 0; i < this.enemyArray.length; i++) {
-			this.enemyArray[i].draw();
-		}
+	right() {
+		return this.x + this.width;
+	}
 
-		this.frames++;
+	top() {
+		return this.y;
+	}
 
-		if (this.frames % 80 === 0) {
-			this.enemyArray.push(
-				new Enemies(
-					Math.floor(Math.random() * this.width),
-					Math.floor(Math.random() * this.height)
-				)
-			);
-		}
-	};
+	bottom() {
+		return this.y + this.height;
+	}
 
 	draw() {
-		ctx.drawImage(this.img, this.x, this.y, 20, 20);
+		ctx.drawImage(this.img, this.x, this.y, 40, 40);
 	}
 }

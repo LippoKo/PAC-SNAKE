@@ -8,6 +8,7 @@ class Component {
 		this.ctx = ctx;
 		this.speedX = 0;
 		this.speedY = 0;
+		this.tail = 0;
 	}
 
 	newPos() {
@@ -36,12 +37,12 @@ class Component {
 		return this.y + this.height;
 	}
 
-	crashWith(obstacle) {
+	crashWith(food) {
 		return !(
-			this.bottom() < obstacle.top() ||
-			this.top() > obstacle.bottom() ||
-			this.right() < obstacle.left() ||
-			this.left() > obstacle.right()
+			this.bottom() < food.top() ||
+			this.top() > food.bottom() ||
+			this.right() < food.left() ||
+			this.left() > food.right()
 		);
 	}
 }
