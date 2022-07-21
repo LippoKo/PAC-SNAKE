@@ -12,7 +12,7 @@ class Component {
 		const makeImg = new Image();
 		makeImg.addEventListener("load", () => {});
 		makeImg.src = src;
-		this.src = makeImg;
+		this.img = makeImg;
 	}
 
 	newPos() {
@@ -42,7 +42,7 @@ class Component {
 	}
 
 	drawImg() {
-		this.ctx.drawImage(this.src, this.x, this.y, this.width, this.height);
+		this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
 	}
 
 	crashWith(food) {

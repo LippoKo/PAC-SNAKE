@@ -15,13 +15,8 @@ const snake = new Component(
 	"./docs/assets/images/pacmann.png"
 );
 
-//Creating the enemies
-//const enemy = new Enemies(300, 300);
-
 //Creating the game
 let game;
-
-//game.start();
 
 const startBtn = document.getElementById("start");
 
