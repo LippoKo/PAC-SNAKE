@@ -12,7 +12,7 @@ const snake = new Component(
 	300,
 	300,
 	ctx,
-	"/docs/assets/images/pacmann.png"
+	"./docs/assets/images/pacmann.png"
 );
 
 //Creating the enemies

@@ -15,7 +15,7 @@ class Enemies {
 			this.img = img;
 			this.draw();
 		});
-		img.src = "/docs/assets/images/ghost2.png";
+		img.src = "./docs/assets/images/ghost2.png";
 	}
 
 	enemyMove() {
