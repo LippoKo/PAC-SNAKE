@@ -21,10 +21,10 @@ class Enemies {
 	enemyMove() {
 		this.x += this.vx;
 		this.y += this.vy;
-		if (this.y + this.vy > 600 || this.y + this.vy < 0) {
+		if (this.y + this.vy > 580 || this.y + this.vy < 0) {
 			this.vy *= -1;
 		}
-		if (this.x + this.vx > 600 || this.x + this.vx < 0) {
+		if (this.x + this.vx > 580 || this.x + this.vx < 0) {
 			this.vx *= -1;
 		}
 	}
