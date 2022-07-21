@@ -5,10 +5,18 @@ const cWidth = canvas.width;
 const cHeight = canvas.height;
 
 //Creating the snake
-const snake = new Component(20, 20, "white", 0, 110, ctx);
+const snake = new Component(
+	25,
+	25,
+	"",
+	300,
+	300,
+	ctx,
+	"/docs/assets/images/pacmann.png"
+);
 
 //Creating the enemies
-const enemy = new Enemies(300, 300);
+//const enemy = new Enemies(300, 300);
 
 //Creating the game
 let game;

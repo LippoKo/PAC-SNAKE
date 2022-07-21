@@ -5,7 +5,6 @@ class Game {
 		this.width = width;
 		this.height = height;
 		this.snake = snake;
-		this.enemy = enemy;
 		this.food = null;
 		this.points = 0;
 		this.interval = null;
@@ -13,11 +12,15 @@ class Game {
 		this.trail = [];
 		this.enemyArray = [];
 		this.speed = 1;
+		this.directionQueue = "";
+		this.direction = "";
+		this.snakeBody = new Image();
+		this.snakeBody.addEventListener("load", () => {});
+		this.snakeBody.src = "/docs/assets/images/pacmann.png";
 	}
 
 	start = () => {
 		this.createFood();
-
 		this.interval = setInterval(this.updateGameArea, 20);
 		this.isRunning = true;
 	};
@@ -25,12 +28,13 @@ class Game {
 	reset = () => {
 		this.snake.tail = 0;
 		this.trail = [];
-		this.snake.x = 0;
-		this.snake.y = 110;
+		this.snake.x = 300;
+		this.snake.y = 300;
 		this.frames = 0;
 		this.enemyArray = [];
 		this.points = 0;
 		this.food = null;
+		this.speed = 1;
 		this.start();
 	};
 
@@ -45,35 +49,39 @@ class Game {
 
 	createFood() {
 		this.food = new Component(
-			20,
-			20,
-			"green",
-			Math.floor(Math.random() * this.width),
-			Math.floor(Math.random() * this.height),
-			this.ctx
+			25,
+			25,
+			"",
+			Math.floor(Math.random() * 580),
+			Math.floor(Math.random() * (this.width - 30)),
+			this.ctx,
+			"/docs/assets/images/HB.png"
 		);
 	}
 
 	checkEatFood = () => {
 		if (this.snake.crashWith(this.food)) {
 			this.points++;
-			this.snake.tail += 10;
+			this.snake.tail += 5;
 			this.createFood();
-			if (this.points % 3 === 0) {
+			if (this.points % 2 === 0) {
 				this.createEnemy();
 			}
-			if (this.points % 10 === 0) this.speed++;
+			if (this.points % 8 === 0) this.speed++;
 		}
 	};
 
 	addTrail = () => {
 		for (let i = 0; i < this.trail.length; i++) {
-			this.ctx.fillRect(
+			//this.ctx.fillStyle = "green";
+			this.ctx.drawImage(
+				this.snakeBody,
 				this.trail[i].x,
 				this.trail[i].y,
 				this.snake.width,
 				this.snake.height
 			);
+			//self-colission
 			if (this.trail[i].x == this.snake.x && this.trail[i].y == this.snake.y) {
 				this.stop();
 			}
@@ -93,6 +101,52 @@ class Game {
 		);
 	}
 
+	changeDirection(keycode) {
+		if (keycode === 37 && this.direction !== "right") {
+			this.directionQueue = "left";
+		} else if (keycode === 38 && this.direction !== "down") {
+			this.directionQueue = "top";
+		} else if (keycode === 39 && this.direction !== "left") {
+			this.directionQueue = "right";
+		} else if (keycode === 40 && this.direction !== "top") {
+			this.directionQueue = "down";
+		}
+	}
+
+	move() {
+		this.direction = this.directionQueue;
+
+		if (this.direction == "right") {
+			if (snake.x > 600 + snake.width) {
+				snake.x = 0 - snake.width;
+			}
+			snake.x += 3;
+		} else if (this.direction == "left") {
+			if (snake.x < 0 - snake.width) {
+				snake.x = 600 + snake.width;
+			}
+			snake.x -= 3;
+		} else if (this.direction == "top") {
+			if (snake.y < 0 - snake.height) {
+				snake.y = 600 + snake.height;
+			}
+			snake.y -= 3;
+		} else if (this.direction == "down") {
+			if (snake.y > 600 + snake.height) {
+				snake.y = 0 - snake.height;
+			}
+			snake.y += 3;
+		}
+
+		document.onkeyup = (e) => {
+			snake.speedX = 0;
+			snake.speedY = 0;
+		};
+		document.addEventListener("keydown", (e) => {
+			this.changeDirection(e.keyCode);
+		});
+	}
+
 	checkGameOver() {
 		const crashed = this.enemyArray.some((enemy) => {
 			return this.snake.crashWith(enemy);
@@ -105,20 +159,36 @@ class Game {
 
 	updateEnemy() {
 		for (let i = 0; i < this.enemyArray.length; i++) {
-			if (this.enemyArray[i].x < this.snake.x) {
-				this.enemyArray[i].x += this.speed;
-			} else {
-				this.enemyArray[i].x -= this.speed;
+			if (this.points <= 5) {
+				if (this.enemyArray[i].x < this.snake.x) {
+					this.enemyArray[i].x += this.speed;
+				} else {
+					this.enemyArray[i].x -= this.speed;
+				}
+				if (this.enemyArray[i].y < this.snake.y) {
+					this.enemyArray[i].y += this.speed;
+				} else {
+					this.enemyArray[i].y -= this.speed;
+				}
+			} else if (this.points > 5 && this.points < 10) {
+				this.enemyArray[i].enemyMove();
+			} else if (this.points >= 7) {
+				if (this.enemyArray[i].x < this.snake.x) {
+					this.enemyArray[i].x += this.speed;
+				} else {
+					this.enemyArray[i].x -= this.speed;
+				}
+				if (this.enemyArray[i].y < this.snake.y) {
+					this.enemyArray[i].y += this.speed;
+				} else {
+					this.enemyArray[i].y -= this.speed;
+				}
+			} else if (this.points === 5) {
+				this.enemyArray = [];
 			}
-			if (this.enemyArray[i].y < this.snake.y) {
-				this.enemyArray[i].y += this.speed;
-			} else {
-				this.enemyArray[i].y -= this.speed;
-			}
-
 			this.enemyArray[i].draw();
+			this.frames++;
 		}
-		this.frames++;
 	}
 
 	score() {
@@ -128,41 +198,12 @@ class Game {
 		this.ctx.fillText(`Score: ${points}`, 480, 20);
 	}
 
-	move() {
-		if (game.key == 37) {
-			if (snake.x < 0 - snake.width) {
-				snake.x = 600 + snake.width;
-			}
-			snake.x -= 2;
-		}
-
-		if (game.key == 39) {
-			if (snake.x > 600 + snake.width) {
-				snake.x = 0 - snake.width;
-			}
-			snake.x += 2;
-		}
-		if (game.key == 38) {
-			if (snake.y < 0 - snake.height) {
-				snake.y = 600 + snake.height;
-			}
-			snake.y -= 2;
-		}
-		if (game.key == 40) {
-			if (snake.y > 600 + snake.height) {
-				snake.y = 0 - snake.height;
-			}
-			snake.y += 2;
-		}
-
-		window.addEventListener("keydown", (e) => {
-			game.key = e.keyCode;
-		});
-
-		document.onkeyup = (e) => {
-			snake.speedX = 0;
-			snake.speedY = 0;
-		};
+	resetState() {
+		this.ArrowUp = false;
+		this.ArrowRight = false;
+		this.ArrowDown = false;
+		this.ArrowLeft = false;
+		//console.log("reset");
 	}
 
 	updateGameArea = () => {
@@ -170,10 +211,11 @@ class Game {
 		this.move();
 		this.checkEatFood();
 		this.addTrail();
-		this.food.draw();
 		this.updateEnemy();
 		this.snake.newPos();
-		this.snake.draw();
+		this.snake.drawImg();
+		this.food.drawImg();
+		this.resetState();
 		this.checkGameOver();
 		this.score();
 	};

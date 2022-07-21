@@ -1,5 +1,5 @@
 class Component {
-	constructor(width, height, color, x, y, ctx) {
+	constructor(width, height, color, x, y, ctx, src) {
 		this.width = width;
 		this.height = height;
 		this.color = color;
@@ -9,6 +9,10 @@ class Component {
 		this.speedX = 0;
 		this.speedY = 0;
 		this.tail = 0;
+		const makeImg = new Image();
+		makeImg.addEventListener("load", () => {});
+		makeImg.src = src;
+		this.src = makeImg;
 	}
 
 	newPos() {
@@ -35,6 +39,10 @@ class Component {
 
 	bottom() {
 		return this.y + this.height;
+	}
+
+	drawImg() {
+		this.ctx.drawImage(this.src, this.x, this.y, this.width, this.height);
 	}
 
 	crashWith(food) {
