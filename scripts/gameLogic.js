@@ -129,15 +129,6 @@ class Game {
 				this.createEnemy();
 				this.createEnemy();
 				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
-				this.createEnemy();
 			}
 		}
 	};
